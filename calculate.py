@@ -9,7 +9,7 @@ class Calculate:
 
         self.node1 = common.Node(node1[0], node1[1])
         self.node2 = common.Node(node2[0], node2[1])
-        print("调用Calculate构造函数")
+        # print("调用Calculate构造函数")
 
     # def cmin_cal(self):
     #     cMin = math.sqrt(pow(self.start.x - self.goal.x, 2)

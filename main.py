@@ -1,7 +1,7 @@
 from matplotlib import pyplot as plt
 import re_informedRRT
 import common
-
+import openpyxl
 
 show_animation = True
 
@@ -25,30 +25,35 @@ def main():
                     (obstacle6.x, obstacle6.y, obstacle6.r),
                     (obstacle7.x, obstacle7.y, obstacle7.r),
                     ]
-
-    # a = RRT.show_obstacle(obstacleList)
-
-    # create obstacles
-    # obstacleList = [
-    #     (3,  3,  1.5),
-    #     (12, 2,  3),
-    #     (3,  9,  2),
-    #     (9,  11, 2),
-    #     (12.5, 9, 1),
-    # ]
-
     # Set params
     rrt = re_informedRRT.RRT(randArea=[-10, 40], obstacleList=obstacleList, maxIter=300)
-    # print("打印obstacle的值", obstacleList)
-    # path = rrt.rrt_planning(start=[0, 0], goal=[15, 12], animation=show_animation)
-    # path = rrt.rrt_star_planning(start=[0, 0], goal=[15, 12], animation=show_animation)
-    i = 0
-    for i in range(21):
-        path = rrt.informed_rrt_star_planning(start=[0, 0], goal=[35, 33], y=i, animation=show_animation)
-        print("Done!!")
-    path = None
+    path = rrt.informed_rrt_star_planning(start=[0, 0], goal=[35, 33], animation=show_animation)
+    print("Done!!")
+
     if show_animation and path:
         plt.show()
+
+    #######################
+    # 此处为测试新旧两种采样算法的（距离、时间、迭代次数），生成两种excel表格
+    # 操作1：修改wb.save("旧采样方法.xlsx")
+    # 操作2：进入re_informedRRT.py文件中的build_first_path()，
+    #######################
+    # wb = openpyxl.Workbook()
+    # ws = wb.create_sheet("sheet1")
+    # ws.cell(row=1, column=1).value = "路径长度"
+    # ws.cell(row=1, column=2).value = "时间"
+    # ws.cell(row=1, column=3).value = "迭代次数"
+    # path = None
+    # for i in range(1,101):
+    #     path = rrt.informed_rrt_star_planning(start=[0, 0], goal=[35, 33], animation=show_animation)
+    #     ws.cell(row=i + 1, column=1).value = path[1]
+    #     print("1=", path[1])
+    #     ws.cell(row=i + 1, column=2).value = path[2]
+    #     print("2=", path[2])
+    #     ws.cell(row=i + 1, column=3).value = path[3]
+    #     print("3=", path[3])
+    #     wb.save("新采样方法.xlsx")
+    #     print("保存成功")
 
 
 if __name__ == '__main__':
